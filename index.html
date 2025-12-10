@@ -1,161 +1,181 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>你爱我么？❤️</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Microsoft YaHei", sans-serif;
-        }
+  <meta charset="UTF-8">
+  <title>你爱我么？❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
-            overflow: hidden;
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Microsoft YaHei", sans-serif;
+    }
 
-        .title {
-            font-size: 3rem;
-            color: #fff;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            margin-bottom: 60px;
-            text-align: center;
-        }
+    body {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+      overflow: hidden;
+      touch-action: manipulation;
+    }
 
-        .button-container {
-            display: flex;
-            gap: 40px;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+    .title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: #fff;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      margin-bottom: 60px;
+      user-select: none;
+    }
 
-        .btn {
-            padding: 20px 40px;
-            font-size: 1.5rem;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            white-space: nowrap;
-        }
+    .button-container {
+      display: flex;
+      gap: clamp(20px, 5vw, 40px);
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+    }
 
-        .love-btn {
-            background: #ff416c;
-            color: white;
-        }
+    .btn {
+      padding: 20px 40px;
+      font-size: clamp(1.2rem, 3vw, 1.5rem);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+      user-select: none;
+    }
 
-        .no-love-btn {
-            background: #e0e0e0;
-            color: #666;
-        }
+    .love-btn {
+      background: #ff416c;
+      color: #fff;
+      transition: transform 0.35s cubic-bezier(.34,1.56,.64,1);
+    }
 
-        .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 30px 60px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            font-size: 2rem;
-            color: #ff416c;
-            text-align: center;
-            display: none;
-            z-index: 100;
-            animation: popup 0.5s ease;
-        }
+    .love-btn:active {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
 
-        @keyframes popup {
-            0% {
-                transform: translate(-50%, -50%) scale(0);
-            }
-            80% {
-                transform: translate(-50%, -50%) scale(1.1);
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
+    .no-love-btn {
+      background: #e0e0e0;
+      color: #666;
+      cursor: not-allowed;
+    }
 
-        /* 响应式适配 */
-        @media (max-width: 768px) {
-            .title {
-                font-size: 2rem;
-                margin-bottom: 40px;
-            }
-            .button-container {
-                flex-direction: column;
-                gap: 30px;
-            }
-            .btn {
-                padding: 15px 30px;
-                font-size: 1.2rem;
-            }
-        }
-    </style>
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: #fff;
+      padding: 30px 60px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      color: #ff416c;
+      text-align: center;
+      z-index: 100;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(.34,1.56,.64,1);
+      user-select: none;
+    }
+
+    .popup.show {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .button-container {
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .btn {
+        padding: 15px 30px;
+        width: clamp(160px, 60vw, 260px);
+      }
+
+      .popup {
+        padding: 20px 40px;
+      }
+    }
+  </style>
 </head>
-<body>
-    <h1 class="title">你爱我么？❤️</h1>
-    <div class="button-container">
-        <button class="btn love-btn" id="loveBtn">超级爱</button>
-        <button class="btn no-love-btn" id="noLoveBtn">不爱</button>
-    </div>
-    <div class="popup" id="popup">我就知道你超爱我！😘</div>
 
-    <script>
-        // 获取元素
-        const loveBtn = document.getElementById('loveBtn');
-        const noLoveBtn = document.getElementById('noLoveBtn');
-        const popup = document.getElementById('popup');
-        
-        // 初始按钮大小
-        let btnSize = 1;
-        
-        // 放大「超级爱」按钮的通用函数
-        function enlargeLoveBtn() {
-            // 按钮放大（每次增加10%）
-            btnSize += 0.1;
-            loveBtn.style.transform = `scale(${btnSize})`;
-            // 限制最大放大倍数（防止过大）
-            if (btnSize > 5) {
-                btnSize = 5;
-            }
-        }
-        
-        // 「超级爱」按钮点击事件
-        loveBtn.addEventListener('click', function() {
-            enlargeLoveBtn(); // 调用通用放大函数
-            // 显示弹窗
-            popup.style.display = 'block';
-            // 3秒后隐藏弹窗
-            setTimeout(() => {
-                popup.style.display = 'none';
-            }, 3000);
-        });
-        
-        // 阻止「不爱」按钮的点击事件 + 触发超级爱放大
-        noLoveBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            alert('休想选这个！😠');
-            enlargeLoveBtn(); // 点击不爱时也放大超级爱按钮
-        });
-        
-        // 页面加载完成后初始化
-        window.addEventListener('load', function() {
-            loveBtn.focus();
-        });
-    </script>
+<body>
+  <h1 class="title">你爱我么？❤️</h1>
+
+  <div class="button-container">
+    <button class="btn love-btn" id="loveBtn">超级爱</button>
+    <button class="btn no-love-btn" id="noLoveBtn">不爱</button>
+  </div>
+
+  <div class="popup" id="popup">我就知道你超爱我！😘</div>
+
+  <script>
+    const loveBtn = document.getElementById("loveBtn");
+    const noLoveBtn = document.getElementById("noLoveBtn");
+    const popup = document.getElementById("popup");
+
+    let btnScale = 1;
+    const scaleStep = 0.1;
+    const maxScale = 2;
+    let popupTimer = null;
+
+    function debounce(fn, delay = 250) {
+      let timer = null;
+      return (...args) => {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => fn(...args), delay);
+      };
+    }
+
+    const enlargeLoveBtn = debounce(() => {
+      btnScale = Math.min(btnScale + scaleStep, maxScale);
+      loveBtn.style.transform = `scale(${btnScale})`;
+    });
+
+    function showPopup(text = "我就知道你超爱我！😘", duration = 2500) {
+      popup.textContent = text;
+      popup.classList.add("show");
+
+      if (popupTimer) clearTimeout(popupTimer);
+      popupTimer = setTimeout(() => {
+        popup.classList.remove("show");
+      }, duration);
+    }
+
+    loveBtn.addEventListener("click", () => {
+      enlargeLoveBtn();
+      showPopup();
+    });
+
+    function handleNoLove(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      showPopup("休想选这个！😠", 2000);
+      enlargeLoveBtn();
+    }
+
+    noLoveBtn.addEventListener("click", handleNoLove);
+    noLoveBtn.addEventListener("touchstart", handleNoLove);
+    noLoveBtn.addEventListener("contextmenu", e => e.preventDefault());
+
+    window.onload = () => {
+      loveBtn.style.transform = `scale(${btnScale})`;
+      loveBtn.focus({ preventScroll: true });
+    };
+
+    window.onresize = () => {
+      loveBtn.style.transform = `scale(${btnScale})`;
+    };
+  </script>
 </body>
 </html>
